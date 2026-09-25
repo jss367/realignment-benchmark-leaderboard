@@ -71,13 +71,6 @@ footer { color:var(--muted); font-size:13px; margin-top:32px; }
 <p class="lede">Each entry starts from a deliberately misaligned model and tries to repair it. A strategy scores by how
 little compute it needs to cut misalignment by 75% without damaging the model.</p>
 
-<div class="card"><div><strong>Status: no starting model survives cheap generic repair yet.</strong>
-<span class="muted">Generic SFT on 16 benign examples repairs every 7B emergent-misalignment organism for about
-10<sup>14</sup> FLOPs. The same SFT removes every trigger backdoor in about four steps, and training 16 times longer
-does not bring it back. Training on the raw text of Claude's constitution repairs two of three organisms, at about
-90 times Alpaca's compute. As a teacher's guide for rewriting the model's answers, the full constitution does no
-better than no constitution. The next seeds need misalignment that survives fine-tuning.</span></div></div>
-
 <div class="controls" role="group" aria-label="Model suite"><div class="seg" id="suites"></div></div>
 
 <section class="card" aria-labelledby="lb-h">
