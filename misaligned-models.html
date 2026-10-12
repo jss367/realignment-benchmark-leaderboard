@@ -38,11 +38,21 @@ tr.group th[colspan]:not(:empty) { border-bottom:1px solid var(--grid); }
 tbody tr:last-child td { border-bottom:0; }
 td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
 th.num { white-space:normal; min-width:84px; }
+nav { display:flex; flex:1; gap:2px; overflow-x:auto; scrollbar-width:none; }
+nav a { padding:17px 7px 15px; color:var(--ink2); text-decoration:none; font-size:14px; white-space:nowrap;
+  border-bottom:2px solid transparent; }
+nav a:hover { color:var(--ink); }
+nav a[aria-current="page"] { color:var(--ink); font-weight:600; border-bottom-color:var(--ink); }
+nav a.how { margin-left:auto; }
+/* Wrap the pages onto a second row rather than hide them behind a scroll; narrow screens scroll instead. */
+@media (min-width: 721px) { nav { flex-wrap:wrap; } nav a { padding:11px 7px 9px; } }
+nav a:focus-visible { outline:2px solid var(--s1); outline-offset:2px; }
+@media (max-width: 720px) {
+  .top .in { flex-wrap:wrap; gap:0; padding:0 14px; } .brand { padding-top:12px; }
+  nav { flex-basis:100%; margin:0 -10px; } nav a { padding:10px 10px 10px; } nav a.how { margin-left:0; } }
 
-body { margin:0; font:16px/1.55 system-ui,sans-serif; background:var(--page); color:var(--ink); }
-header, main { max-width:1500px; margin:auto; padding:24px; }
-header { border-bottom:1px solid var(--grid); display:flex; gap:24px; flex-wrap:wrap; }
-a { color:var(--s1); } h1 { font-size:clamp(28px,4vw,44px); line-height:1.15; }
+main { max-width:1500px; padding:24px; }
+h1 { font-size:clamp(28px,4vw,44px); line-height:1.15; }
 .intro { max-width:880px; } .meta { color:var(--ink2); } .table-wrap { overflow-x:auto; }
 table { width:100%; border-collapse:collapse; background:var(--surface); font-size:14px; }
 caption { text-align:left; padding:12px 0; color:var(--ink2); }
@@ -53,7 +63,10 @@ td:nth-child(2) { min-width:280px; } .hf { display:block; font-size:13px; overfl
 label { display:block; font-weight:600; margin-bottom:8px; } [hidden] { display:none; }
 a:focus-visible,input:focus-visible { outline:2px solid var(--s1); outline-offset:3px; }
 </style></head><body>
-<header><strong>Realignment benchmark</strong><a href="index.html">Repair leaderboard</a><a href="https://github.com/jss367/realignment-benchmark">Repository</a></header>
+<header class="top"><div class="in">
+<a class="brand" href="index.html#overview">Realignment benchmark</a>
+<nav aria-label="Pages"><a href="index.html#overview">Overview</a><a href="index.html#em">Weights</a><a href="index.html#poisoning">Training data + SFT baseline</a><a href="index.html#system-prompts">Prompts + SFT baseline</a><a href="index.html#institutions">Institutions</a><a href="index.html#support">Eval checks</a><a href="index.html#how-it-works" class="how">How it works</a><a href="misaligned-models.html" aria-current="page">Model reference</a></nav>
+</div></header>
 <main><div class="intro"><h1>Open-weight misaligned model reference</h1>
 <p>Public model families for studying emergent misalignment, backdoors, sandbagging,
 reward hacking, deceptive monitoring and sycophancy. Behavior and evidence are as reported by each source;

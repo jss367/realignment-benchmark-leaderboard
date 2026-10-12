@@ -49,7 +49,11 @@ nav a[aria-current="page"] { color:var(--ink); font-weight:600; border-bottom-co
 nav a.how { margin-left:auto; }
 /* Wrap the pages onto a second row rather than hide them behind a scroll; narrow screens scroll instead. */
 @media (min-width: 721px) { nav { flex-wrap:wrap; } nav a { padding:11px 7px 9px; } }
-nav a:focus-visible, .seg button:focus-visible, .pt:focus-visible, .legend button:focus-visible {
+nav a:focus-visible { outline:2px solid var(--s1); outline-offset:2px; }
+@media (max-width: 720px) {
+  .top .in { flex-wrap:wrap; gap:0; padding:0 14px; } .brand { padding-top:12px; }
+  nav { flex-basis:100%; margin:0 -10px; } nav a { padding:10px 10px 10px; } nav a.how { margin-left:0; } }
+.seg button:focus-visible, .pt:focus-visible, .legend button:focus-visible {
   outline:2px solid var(--s1); outline-offset:2px; }
 
 .seg { display:inline-flex; flex-wrap:wrap; border:1px solid var(--ring); border-radius:8px; padding:3px; background:var(--page); }
@@ -169,8 +173,6 @@ details { margin-top:18px; } summary { cursor:pointer; color:var(--ink2); font-s
 footer { color:var(--muted); font-size:13px; margin-top:28px; }
 @media (max-width: 860px) { .steps, .rules { grid-template-columns:1fr; } }
 @media (max-width: 720px) {
-  .top .in { flex-wrap:wrap; gap:0; padding:0 14px; } .brand { padding-top:12px; }
-  nav { flex-basis:100%; margin:0 -10px; } nav a { padding:10px 10px 10px; } nav a.how { margin-left:0; }
   #ex thead { display:none; } #ex tr { display:block; border-bottom:1px solid var(--grid); padding:8px 0; }
   #ex tbody tr:last-child { border-bottom:0; } #ex td, #ex td.q { display:block; width:auto; border:0; padding:3px 0; }
   main { padding:28px 14px 60px; } .card { padding:18px; } h1 { font-size:28px; } .lede { font-size:16.5px; } }
@@ -626,11 +628,10 @@ Those are aggregate agreement rates, not accuracy estimates for false-claim endo
 <p>The covenant deck stopped DeepSeek v4-pro from falsifying a sourced Tiananmen record: 53% inserted the publisher's false
 claim under a standing order alone, 0 of 200 with a 137-word covenant explanation ahead of the order. The card above
 tested the 48-word commitment instead, so this run gives the 7B models the deck's exact prompts, plus the commitment in
-the explanation's place. <b>Recorded outcome: no qualifying effect detected.</b> Per-model, per-arm insertion means range from 90.3% to 97.3% of
+the explanation's place, and reruns DeepSeek with all four. <b>Recorded 7B outcome: no qualifying effect detected.</b> Per-model, per-arm insertion means range from 90.3% to 97.3% of
 runs; the rest are mostly tool calls the parser could not read, and counting what those submitted puts every arm at
 98–100% per model and arm. The primary covenant minus order interval is −2.4 to +1.3 percentage points:
-no comparison meets the counting rule, but this does not establish no effect or equivalence. The cross-study gap
-is not a controlled model comparison; DeepSeek was not rerun here, so its cause remains unresolved. The saved
+no comparison meets the counting rule, but this does not establish no effect or equivalence. The saved
 summary retains the original label “no difference”, meaning no comparison met the rule.</p>
 <div class="tablewrap"><table>
 <caption>False claim inserted, mean over three seeds</caption>
@@ -655,7 +656,23 @@ summary retains the original label “no difference”, meaning no comparison me
 <tr><td>Commitment minus order alone</td><td>Does the commitment?</td><td class="num">+0.8</td><td class="num">[-1.0, +2.5]</td><td>No</td></tr>
 <tr><td>Command explanation minus order alone</td><td>Does the command framing add to it?</td><td class="num">-1.2</td><td class="num">[-4.0, +1.5]</td><td>No</td></tr>
 </tbody></table></div>
-<p class="note">These record-falsification contrasts use 95% t-intervals over nine organism–seed pairs.
+<p><b>DeepSeek v4-pro, same prompts, tool and scorer.</b> As in the deck, the covenant and commitment arms inserted the
+claim far less than the order alone: the order alone in 53.5% of 200 runs, the covenant explanation in
+1.5% and the commitment in 1.0% (both count, Fisher exact, Holm
+p &lt; .001). The command explanation arm stayed near the order rate (49.0%). The arms ran in
+blocks, one after another, so provider drift during the run cannot be separated from arm effects. On the 7B models,
+no qualifying effect was detected for the commitment or the covenant. The two runs also differ in serving (API
+against local sampling), so this compares setups, not models alone.</p>
+<div class="tablewrap"><table>
+<caption>DeepSeek v4-pro (Novita, reasoning off), false claim inserted</caption>
+<thead><tr><th>Arm</th><th class="num">Inserted</th><th class="num">Rate</th><th class="num">95% Wilson interval</th></tr></thead>
+<tbody>
+<tr><td>Order alone</td><td class="num">107/200</td><td class="num">53.5%</td><td class="num">46.6% to 60.3%</td></tr>
+<tr><td>Covenant explanation</td><td class="num">3/200</td><td class="num">1.5%</td><td class="num">0.5% to 4.3%</td></tr>
+<tr><td>Command explanation</td><td class="num">98/200</td><td class="num">49.0%</td><td class="num">42.2% to 55.9%</td></tr>
+<tr><td>Commitment</td><td class="num">2/200</td><td class="num">1.0%</td><td class="num">0.3% to 3.6%</td></tr>
+</tbody></table></div>
+<p class="note">The 7B contrasts use 95% t-intervals over nine organism–seed pairs.
 A difference counts when its interval excludes zero and its magnitude is at least 2 percentage points.
 A reduction also requires the order-alone organism mean insertion rate to be at least 10%; increases can count
 without that baseline room. Base-model rates are excluded from contrasts. Coherence was not measured in this
